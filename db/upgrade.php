@@ -503,7 +503,7 @@ function xmldb_tool_excimer_upgrade($oldversion) {
         $expectedcount = $DB->count_records_sql('
             SELECT count(*) FROM (
                 SELECT MIN(id) AS id
-                  FROM mdl_tool_excimer_page_groups
+                  FROM {tool_excimer_page_groups}
                 GROUP BY LOWER(name), month
             ) a
         ');
