@@ -15,33 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * D3.js flamegraph of excimer profiling data.
+ * Hook callbacks for tool_excimer
  *
  * @package   tool_excimer
- * @author    Nigel Chapman <nigelchapman@catalyst-au.net>, Jason den Dulk <jasondendulk@catalyst-au.net>
- * @copyright 2021, Catalyst IT
+ * @author    Sumaiya Javed <sumaiya.javed@catalyst.net.nz>
+ * @copyright 2024, Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use tool_excimer\manager;
-use tool_excimer\check\slowest;
+defined('MOODLE_INTERNAL') || die();
 
-/**
- * Hook to run plugin before session start.
- *
- * This is to get the timer started for installations that have the MDL-75014 fix (4.1 or later). Otherwise
- * the timer will be started as a part of tool_excimer_after_config().
- */
-function tool_excimer_before_session_start() {
-    // Start plugin.
-    $manager = manager::get_instance();
-}
-
-/**
- * Hook to obtain a list of perfomence checks supplied by the plugin.
- *
- * @return \core\check\check[]
- */
-function tool_excimer_performance_checks(): array {
-    return [new slowest()];
-}
+$callbacks = [
+    [
+        'hook' => \core\hook\after_config::class,
+        'callback' => 'tool_excimer\local\hooks\after_config::callback',
+        'priority' => 0,
+    ],
+];
